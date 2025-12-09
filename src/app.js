@@ -175,3 +175,65 @@ footer {
   padding: 20px;
   color: #666;
 }
+
+/* Código JavaScript para manejar actividades y participantes */
+
+// Ejemplo de estructura de actividades con participantes
+const activities = [
+  {
+    id: 1,
+    title: "Yoga en el parque",
+    description: "Clase de yoga para todos los niveles.",
+    date: "2024-06-15",
+    participants: [
+      { name: "Ana", email: "ana@email.com" },
+      { name: "Luis", email: "luis@email.com" }
+    ]
+  },
+  // ...otras actividades...
+];
+
+function renderActivities() {
+  const activitiesContainer = document.getElementById('activities');
+  activitiesContainer.innerHTML = '';
+  activities.forEach(activity => {
+    const card = document.createElement('div');
+    card.className = 'activity-card';
+    card.innerHTML = `
+      <h4>${activity.title}</h4>
+      <p>${activity.description}</p>
+      <p><strong>Fecha:</strong> ${new Date(activity.date).toLocaleDateString()}</p>
+    `;
+
+    // Sección de participantes (solo emails, como en la imagen)
+    const participantsSection = document.createElement('div');
+    participantsSection.className = 'participants-section';
+
+    const participantsTitle = document.createElement('div');
+    participantsTitle.innerHTML = '<strong>Participants:</strong>';
+    participantsTitle.style.marginBottom = '6px';
+    participantsSection.appendChild(participantsTitle);
+
+    const participantsList = document.createElement('ul');
+    participantsList.className = 'participants-list';
+    if (activity.participants && activity.participants.length > 0) {
+      activity.participants.forEach(participant => {
+        const li = document.createElement('li');
+        // Si el participante es string (solo email) o es objeto
+        li.textContent = participant.email ? participant.email : participant;
+        participantsList.appendChild(li);
+      });
+    } else {
+      const li = document.createElement('li');
+      li.textContent = 'No participants yet.';
+      participantsList.appendChild(li);
+    }
+    participantsSection.appendChild(participantsList);
+    card.appendChild(participantsSection);
+
+    activitiesContainer.appendChild(card);
+  });
+}
+
+// Llamar a la función para renderizar actividades al cargar la página
+document.addEventListener('DOMContentLoaded', renderActivities);
